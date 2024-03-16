@@ -40,11 +40,14 @@ class AnimalsScreen extends StatelessWidget {
                     ),
                     subtitle: Text(
                       animalData.description,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                   ),
                 ),
               );

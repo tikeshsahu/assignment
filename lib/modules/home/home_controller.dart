@@ -44,13 +44,13 @@ class HomeController extends GetxController {
   }
 
   fetchTodos(int pageKey, {String query = ""}) async {
+    print("fetchTodos called");
     try {
       final response = await Api.instance.getTodos(
         page: pageKey,
         limit: limit,
         query: query,
       );
-
       final isLastPage = response.length < limit;
       if (isLastPage) {
         pagingController.appendLastPage(response);
@@ -62,8 +62,6 @@ class HomeController extends GetxController {
       pagingController.error = e;
     }
   }
-
-  
 
   onSearch(String value) async {
     if (value == "") {

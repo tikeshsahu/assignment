@@ -16,16 +16,6 @@ class LayoutScreen extends StatelessWidget {
         height: 75,
         decoration: const BoxDecoration(
           color: Colors.black,
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(AppDimension.normalRadius * 2),
-          //   topRight: Radius.circular(AppDimension.normalRadius * 2),
-          // ),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: AppTheme.themeBlackColor,
-          //     blurRadius: 2,
-          //   ),
-          // ],
         ),
         child: Obx(
           () => Row(
@@ -36,15 +26,15 @@ class LayoutScreen extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: CustomizedNavBarWidget(
-                  title: "home".tr,
+                  title: "HOME",
                   icon: layoutController.currentIndex == 0 ? Icons.home : Icons.home_outlined,
                   index: 0,
                 ),
               ),
               const SizedBox(width: AppUtils.normalPadding * 1.5),
-              Expanded(flex: 1, child: CustomizedNavBarWidget(title: "search".tr, icon: layoutController.currentIndex == 1 ? Icons.search : Icons.search_outlined, index: 1)),
+              Expanded(flex: 1, child: CustomizedNavBarWidget(title: "My Todos", icon: layoutController.currentIndex == 1 ? Icons.search : Icons.search_outlined, index: 1)),
               const SizedBox(width: AppUtils.normalPadding * 1.5),
-              Expanded(flex: 1, child: CustomizedNavBarWidget(title: "profile".tr, icon: layoutController.currentIndex == 2 ? Icons.person : Icons.person_outlined, index: 2)),
+              Expanded(flex: 1, child: CustomizedNavBarWidget(title: "Animals", icon: layoutController.currentIndex == 2 ? Icons.person : Icons.person_outlined, index: 2)),
               const SizedBox(width: AppUtils.normalPadding),
             ],
           ),

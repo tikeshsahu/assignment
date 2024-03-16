@@ -24,50 +24,59 @@ class HomeScreen extends StatelessWidget {
             () => homeController.pagingController.refresh(),
           ),
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
+            primary: false,
             padding: const EdgeInsets.all(AppUtils.normalPadding / 2),
-            child: Obx(
-              () => Column(
-                children: [
-                  const Text(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: size.height * 0.05,
+                  child: const Text(
                     "Note: You need to enter complete title of Todos, in order to search (Api issue).",
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(
-                    height: AppUtils.normalPadding / 2,
-                  ),
-                  SizedBox(
+                ),
+                const SizedBox(
+                  height: AppUtils.normalPadding / 2,
+                ),
+                Obx(
+                  () => SizedBox(
+                    height: size.height * 0.06,
                     width: size.width,
                     child: TextField(
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      decoration: AppUtils.textFieldDecoration().copyWith(
-                        hintText: "Search Todos",
-                        prefixIcon: const Icon(
-                          Icons.search_outlined,
-                          size: 22,
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        decoration: AppUtils.textFieldDecoration().copyWith(
+                          hintText: "Search Todos",
+                          prefixIcon: const Icon(
+                            Icons.search_outlined,
+                            size: 22,
+                          ),
+                          suffixIcon: homeController.searchController.text.isNotEmpty
+                              ? GestureDetector(
+                                  onTap: () {
+                                    homeController.searchController.clear();
+                                    homeController.pagingController.refresh();
+                                    FocusScope.of(context).unfocus();
+                                  },
+                                  child: const Icon(
+                                    Icons.clear_outlined,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              : const Offstage(),
                         ),
-                        suffixIcon: homeController.searchController.text.isNotEmpty
-                            ? GestureDetector(
-                                onTap: () {
-                                  homeController.searchController.clear();
-                                  homeController.pagingController.refresh();
-                                  FocusScope.of(context).unfocus();
-                                },
-                                child: const Icon(
-                                  Icons.clear_outlined,
-                                ),
-                              )
-                            : const Offstage(),
-                      ),
-                      controller: homeController.searchController,
-                      onChanged: (value) => homeController.searchDebounce(value),
-                    ),
+                        controller: homeController.searchController,
+                        onChanged: (value) {
+                          homeController.searchDebounce(value);
+                        }),
                   ),
-                  const SizedBox(
-                    height: AppUtils.normalPadding,
-                  ),
-                  PagedListView.separated(
-                    physics: const BouncingScrollPhysics(),
+                ),
+                const SizedBox(
+                  height: AppUtils.normalPadding / 2,
+                ),
+                SizedBox(
+                  height: size.height * 0.91,
+                  child: PagedListView.separated(
                     shrinkWrap: true,
                     pagingController: homeController.pagingController,
                     builderDelegate: PagedChildBuilderDelegate(noItemsFoundIndicatorBuilder: (context) {
@@ -91,9 +100,15 @@ class HomeScreen extends StatelessWidget {
                       );
                     }, itemBuilder: (context, dynamic item, index) {
                       return Card(
+                        elevation: 4,
+                        surfaceTintColor: Colors.white,
                         child: ListTile(
                           leading: Text(
-                            "${index + 1}",
+                            "${index + 1}.",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                           title: Text(
                             item['title'],
@@ -113,8 +128,8 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
